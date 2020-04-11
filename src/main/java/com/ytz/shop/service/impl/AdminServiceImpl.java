@@ -2,6 +2,7 @@ package com.ytz.shop.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.pojo.Permission;
 import com.ytz.shop.pojo.UserAdmin;
 import com.ytz.shop.repository.PermissionRepository;
@@ -13,6 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -23,9 +29,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 /**
  * @ClassName: AdminServiceImpl
  * @Description: 后台用户 业务实现
@@ -112,5 +119,54 @@ public class AdminServiceImpl implements AdminService {
             return permissionList;
         }
         return null;
+    }
+
+    @Override
+    public Page<UserAdmin> list(Integer pageNum, Integer pageSize, String key, String mobile, Integer status) {
+        if (pageNum != 0) {
+            pageNum = pageNum - 1;
+        }
+        // 2.0 之前
+//        Sort sort = new Sort(Sort.Direction.DESC, "id");
+//        Pageable pageable = new PageRequest(pageNum, pageSize, sort);
+        // SpringBoot2.0使用方式
+        Pageable pageable =PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.ASC,"id"));
+        Specification<UserAdmin> specification = (root, query, criteriaBuilder) -> {
+            List<Predicate> list = new ArrayList<>();
+            if (StrUtil.isNotEmpty(mobile)) {
+                Predicate p1 = criteriaBuilder.equal(root.get("mobile"), mobile);
+                list.add(p1);
+            }
+            if  (ObjectUtil.isNotEmpty(status)) {
+                Predicate p2 = criteriaBuilder.equal(root.get("status"), status);
+                list.add(p2);
+            }
+            if (StrUtil.isNotEmpty(key)) {
+                Predicate p3 = criteriaBuilder.like(root.get("username"), key + "%");
+                list.add(p3);
+            }
+            return criteriaBuilder.and(list.toArray(new Predicate[0]));
+        };
+        return userAdminRepository.findAll(specification, pageable);
+        /*Page<UserAdmin> userAdmins = userAdminRepository.findAll(pageable);
+        Iterator<UserAdmin> userAdminIterator = userAdmins.iterator();
+        return userAdminIterator;*/
+    }
+
+    @Override
+    public UserAdmin add(UserAdmin admin) {
+        UserAdmin userAdmin = userAdminRepository.save(admin);
+        return userAdmin;
+    }
+
+    @Override
+    public int modifyStatus(Long id, Integer status) {
+        int result = userAdminRepository.updateStatus(id, status);
+        return result;
+    }
+
+    @Override
+    public void remove(Long id) {
+        userAdminRepository.deleteById(id);
     }
 }

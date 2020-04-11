@@ -2,6 +2,7 @@ package com.ytz.shop.service;
 
 import com.ytz.shop.pojo.Permission;
 import com.ytz.shop.pojo.UserAdmin;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -40,4 +41,43 @@ public interface AdminService {
      * @return
      */
     List<Permission> getPermissionList(Long adminId);
+
+    /**
+     *
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    /**
+     * 查询用户列表 分页
+     * @param pageNum   当前页号
+     * @param pageSize   每页显示数量
+     * @param key  关键字
+     * @param phone  电话号
+     * @param status   状态
+     * @return
+     */
+    Page<UserAdmin> list(Integer pageNum, Integer pageSize, String key, String phone, Integer status);
+
+    /**
+     * 添加用户信息
+     * @param admin
+     * @return
+     */
+    UserAdmin add(UserAdmin admin);
+
+    /**
+     * 修改用户状态
+     * @param id
+     * @param status
+     * @return
+     */
+    int modifyStatus(Long id, Integer status);
+
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    void remove(Long id);
 }

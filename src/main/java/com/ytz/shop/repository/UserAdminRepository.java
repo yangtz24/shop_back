@@ -2,6 +2,7 @@ package com.ytz.shop.repository;
 
 import com.ytz.shop.pojo.UserAdmin;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ import java.util.Date;
  * @date: 2020/4/8 15:04
  */
 @Repository
-public interface UserAdminRepository extends JpaRepository<UserAdmin, Long> {
+public interface UserAdminRepository extends JpaRepository<UserAdmin, Long>, JpaSpecificationExecutor<UserAdmin> {
     /**
      *  根据用户名查询
      * @param userName
@@ -31,11 +32,22 @@ public interface UserAdminRepository extends JpaRepository<UserAdmin, Long> {
     UserAdmin findByNickName(String nickName);
 
     /**
-     * 更新用户最后一次邓论时间
+     * 更新用户最后一次登录时间
      * @param username
      * @param date
      */
     @Modifying
-    @Query(nativeQuery = true, value = "update shop_admin set login_time = ?2 where id = ?1 ")
+    @Query(nativeQuery = true, value = "UPDATE SHOP_ADMIN SET login_time = ?2 WHERE id = ?1 ")
     void updateLoginDate(String username, Date date);
+
+    /**
+     * 修改用户状态
+     * @param id
+     * @param status
+     * @return
+     */
+    @Query(nativeQuery = true, value = "UPDATE SHOP_ADMIN SET status = ?2 WHERE id = ?1")
+    int updateStatus(Long id, Integer status);
+
+
 }

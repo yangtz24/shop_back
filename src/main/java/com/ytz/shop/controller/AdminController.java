@@ -1,5 +1,7 @@
 package com.ytz.shop.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ytz.shop.common.CommonResult;
 import com.ytz.shop.dto.AdminLoginParam;
 import com.ytz.shop.pojo.Permission;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -69,5 +72,35 @@ public class AdminController {
     public CommonResult<List<Permission>> getPermissionList(@PathVariable Long adminId) {
         List<Permission> permissionList = adminService.getPermissionList(adminId);
         return CommonResult.success(permissionList);
+    }
+
+    @ApiOperation("更新用户状态")
+    @PutMapping("{id}/status/{status}")
+    public CommonResult<Integer> modifyStatus(@PathVariable Long id, @PathVariable Integer status) {
+        int result = adminService.modifyStatus(id, status);
+        if (result == 1) {
+            return CommonResult.success(result);
+        }
+        return CommonResult.failed("更新状态失败");
+    }
+
+    @ApiOperation("添加管理员用户")
+    @PostMapping("")
+    public CommonResult<UserAdmin> add(@RequestBody UserAdmin admin) {
+        UserAdmin userAdmin = adminService.add(admin);
+        if(ObjectUtil.isEmpty(userAdmin)) {
+            CommonResult.failed("添加失败");
+        }
+        return CommonResult.success(admin);
+    }
+
+    @ApiOperation("分页查询")
+    @GetMapping("page")
+    public CommonResult<Page<UserAdmin>> list(@RequestParam("pageNumber") Integer pageNum, Integer pageSize, @RequestParam("query") String key, String phone, Integer status) {
+        Page<UserAdmin> page = adminService.list(pageNum, pageSize, key, phone, status);
+        if (CollUtil.isNotEmpty(page)) {
+            return CommonResult.success(page);
+        }
+        return CommonResult.failed("查询失败");
     }
 }
