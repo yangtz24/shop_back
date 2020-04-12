@@ -103,4 +103,16 @@ public class AdminController {
         }
         return CommonResult.failed("查询失败");
     }
+
+    @ApiOperation("获取单个用户详情")
+    @GetMapping("{id}")
+    public CommonResult<UserAdmin> getOne(@PathVariable Long id) {
+        UserAdmin userAdmin = adminService.detail(id);
+        if (ObjectUtil.isNotEmpty(userAdmin)) {
+            return CommonResult.success(userAdmin);
+        }
+        return CommonResult.failed("查询失败");
+    }
+
+
 }

@@ -46,8 +46,12 @@ public interface UserAdminRepository extends JpaRepository<UserAdmin, Long>, Jpa
      * @param status
      * @return
      */
+    @Modifying
     @Query(nativeQuery = true, value = "UPDATE SHOP_ADMIN SET status = ?2 WHERE id = ?1")
     int updateStatus(Long id, Integer status);
 
 
+    @Modifying
+    @Query(nativeQuery = true, value = "UPDATE SHOP_ADMIN SET status = ?2 WHERE id = ?1")
+    int update(UserAdmin userAdmin);
 }

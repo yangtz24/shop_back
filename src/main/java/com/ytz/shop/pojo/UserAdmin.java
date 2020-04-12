@@ -1,7 +1,9 @@
 package com.ytz.shop.pojo;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +17,8 @@ import java.util.Date;
  */
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "shop_admin")
 public class UserAdmin implements Serializable {
 
@@ -59,4 +63,8 @@ public class UserAdmin implements Serializable {
 
     @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
     private Integer status;
+
+    // VO
+    @Transient
+    private boolean state;
 }

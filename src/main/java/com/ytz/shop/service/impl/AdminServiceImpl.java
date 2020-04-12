@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 /**
  * @ClassName: AdminServiceImpl
@@ -147,16 +148,39 @@ public class AdminServiceImpl implements AdminService {
             }
             return criteriaBuilder.and(list.toArray(new Predicate[0]));
         };
-        return userAdminRepository.findAll(specification, pageable);
+        Page<UserAdmin> admins = userAdminRepository.findAll(specification, pageable);
+        Iterator<UserAdmin> iterator = admins.iterator();
+        iterator.forEachRemaining(admin -> {
+            if (admin.getStatus().equals(UserAdmin.STATUS_ENABLE)) {
+                admin.setState(true);
+            } else {
+                admin.setState(false);
+            }
+        });
+        return admins;
         /*Page<UserAdmin> userAdmins = userAdminRepository.findAll(pageable);
         Iterator<UserAdmin> userAdminIterator = userAdmins.iterator();
         return userAdminIterator;*/
     }
 
     @Override
+    public UserAdmin detail(Long id) {
+        // UserAdmin$HibernateProxy$pUOzwGtW["hibernateLazyInitializer"])
+        return userAdminRepository.getOne(id);
+    }
+
+    @Override
     public UserAdmin add(UserAdmin admin) {
+        admin.setCreateTime(new Date());
+        admin.setStatus(UserAdmin.STATUS_ENABLE);
         UserAdmin userAdmin = userAdminRepository.save(admin);
         return userAdmin;
+    }
+
+    @Override
+    public int edit(UserAdmin userAdmin) {
+        int result = userAdminRepository.update(userAdmin);
+        return result;
     }
 
     @Override

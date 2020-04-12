@@ -43,12 +43,6 @@ public interface AdminService {
     List<Permission> getPermissionList(Long adminId);
 
     /**
-     *
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    /**
      * 查询用户列表 分页
      * @param pageNum   当前页号
      * @param pageSize   每页显示数量
@@ -60,11 +54,25 @@ public interface AdminService {
     Page<UserAdmin> list(Integer pageNum, Integer pageSize, String key, String phone, Integer status);
 
     /**
+     * 获取用户详情 根据ID
+     * @param id
+     * @return
+     */
+    UserAdmin detail(Long id);
+
+    /**
      * 添加用户信息
      * @param admin
      * @return
      */
     UserAdmin add(UserAdmin admin);
+
+    /**
+     * 修改用户信息
+     * @param userAdmin
+     * @return
+     */
+    int edit(UserAdmin userAdmin);
 
     /**
      * 修改用户状态
