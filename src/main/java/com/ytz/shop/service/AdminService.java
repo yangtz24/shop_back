@@ -72,7 +72,7 @@ public interface AdminService {
      * @param userAdmin
      * @return
      */
-    int edit(UserAdmin userAdmin);
+    int edit(UserAdmin userAdmin, Long id);
 
     /**
      * 修改用户状态

@@ -114,5 +114,22 @@ public class AdminController {
         return CommonResult.failed("查询失败");
     }
 
+    @ApiOperation("更新用户信息")
+    @PutMapping("modify/{id}")
+    public CommonResult<Integer> modify(@RequestBody UserAdmin userAdmin, @PathVariable Long id) {
+        int result = adminService.edit(userAdmin, id);
+        if (result == 1) {
+            return CommonResult.success(result);
+        }
+        return CommonResult.failed("更新操作失败!!!");
+    }
+
+    @ApiOperation("删除用户信息")
+    @DeleteMapping("remove/{id}")
+    public CommonResult remove(@PathVariable Long id) {
+        adminService.remove(id);
+        return CommonResult.success(1, "删除操作成功！！！");
+    }
+
 
 }

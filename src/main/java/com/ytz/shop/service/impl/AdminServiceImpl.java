@@ -178,7 +178,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public int edit(UserAdmin userAdmin) {
+    public int edit(UserAdmin userAdmin, Long id) {
+        userAdmin.setId(id);
+        userAdmin.setUpdateTime(new Date());
         int result = userAdminRepository.update(userAdmin);
         return result;
     }

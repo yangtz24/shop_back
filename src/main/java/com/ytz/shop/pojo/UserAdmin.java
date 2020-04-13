@@ -58,8 +58,12 @@ public class UserAdmin implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
+    @ApiModelProperty(value = "更新时间")
+    private Date updateTime;
+
     @ApiModelProperty(value = "最后登录时间")
     private Date loginTime;
+
 
     @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
     private Integer status;

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -51,7 +52,12 @@ public interface UserAdminRepository extends JpaRepository<UserAdmin, Long>, Jpa
     int updateStatus(Long id, Integer status);
 
 
+    /**
+     * 修改用户信息
+     * @param userAdmin
+     * @return
+     */
     @Modifying
-    @Query(nativeQuery = true, value = "UPDATE SHOP_ADMIN SET status = ?2 WHERE id = ?1")
-    int update(UserAdmin userAdmin);
+    @Query( nativeQuery = true, value = "UPDATE SHOP_ADMIN SET nick_name= :#{#admin.nickName}, email= :#{#admin.email}, mobile= :#{#admin.mobile}, update_time = :#{#admin.updateTime} WHERE id = :#{#admin.id}")
+    int update(@Param("admin") UserAdmin userAdmin);
 }
