@@ -3,11 +3,13 @@ package com.ytz.shop.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.ytz.shop.common.Constant;
 import com.ytz.shop.pojo.Permission;
 import com.ytz.shop.pojo.UserAdmin;
 import com.ytz.shop.repository.PermissionRepository;
 import com.ytz.shop.repository.UserAdminRepository;
 import com.ytz.shop.service.AdminService;
+import com.ytz.shop.util.DateUtil;
 import com.ytz.shop.util.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +32,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 /**
@@ -67,8 +70,8 @@ public class AdminServiceImpl implements AdminService {
     public UserAdmin register(UserAdmin userAdmin) {
         UserAdmin admin = new UserAdmin();
         BeanUtils.copyProperties(userAdmin, admin);
-        admin.setCreateTime(new Date());
-        admin.setStatus(UserAdmin.STATUS_ENABLE);
+        admin.setCreateTime(LocalDateTime.now(ZoneId.of("+8")));
+        admin.setStatus(Constant.STATUS_ENABLE);
         //判断是否有重名的用户
         UserAdmin admin1 = userAdminRepository.findByUsername(userAdmin.getUsername());
         UserAdmin admin2 = userAdminRepository.findByNickName(userAdmin.getNickName());
@@ -124,14 +127,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Page<UserAdmin> list(Integer pageNum, Integer pageSize, String key, String mobile, Integer status) {
-        if (pageNum != 0) {
+        if (pageNum != null && pageNum != 0) {
             pageNum = pageNum - 1;
         }
         // 2.0 之前
 //        Sort sort = new Sort(Sort.Direction.DESC, "id");
 //        Pageable pageable = new PageRequest(pageNum, pageSize, sort);
         // SpringBoot2.0使用方式
-        Pageable pageable =PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.ASC,"id"));
+        Pageable pageable =PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC,"id"));
         Specification<UserAdmin> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> list = new ArrayList<>();
             if (StrUtil.isNotEmpty(mobile)) {
@@ -151,11 +154,14 @@ public class AdminServiceImpl implements AdminService {
         Page<UserAdmin> admins = userAdminRepository.findAll(specification, pageable);
         Iterator<UserAdmin> iterator = admins.iterator();
         iterator.forEachRemaining(admin -> {
-            if (admin.getStatus().equals(UserAdmin.STATUS_ENABLE)) {
+            if (admin.getStatus().equals(Constant.STATUS_ENABLE)) {
                 admin.setState(true);
             } else {
                 admin.setState(false);
             }
+            // 日期格式处理
+            admin.setCreateTimeStr(DateUtil.date(admin.getCreateTime()));
+            admin.setUpdateTimeStr(DateUtil.date(admin.getUpdateTime()));
         });
         return admins;
         /*Page<UserAdmin> userAdmins = userAdminRepository.findAll(pageable);
@@ -171,8 +177,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public UserAdmin add(UserAdmin admin) {
-        admin.setCreateTime(new Date());
-        admin.setStatus(UserAdmin.STATUS_ENABLE);
+        admin.setCreateTime(LocalDateTime.now(ZoneId.of("+8")));
+        admin.setStatus(Constant.STATUS_ENABLE);
         UserAdmin userAdmin = userAdminRepository.save(admin);
         return userAdmin;
     }
@@ -180,7 +186,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int edit(UserAdmin userAdmin, Long id) {
         userAdmin.setId(id);
-        userAdmin.setUpdateTime(new Date());
+        userAdmin.setUpdateTime(LocalDateTime.now(ZoneId.of("+8")));
         int result = userAdminRepository.update(userAdmin);
         return result;
     }

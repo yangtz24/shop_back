@@ -2,10 +2,11 @@ package com.ytz.shop.pojo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @ClassName: Role
@@ -15,6 +16,7 @@ import java.util.Date;
  */
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "shop_role")
 public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -33,10 +35,19 @@ public class Role implements Serializable {
     private Integer adminCount;
 
     @ApiModelProperty(value = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @ApiModelProperty(value = "启用状态：0->禁用；1->启用")
     private Integer status;
 
+    @ApiModelProperty(value = "排序")
     private Integer sort;
+
+    /**
+     * VO
+     */
+    @Transient
+    private boolean state;
+    @Transient
+    private String createTimeStr;
 }

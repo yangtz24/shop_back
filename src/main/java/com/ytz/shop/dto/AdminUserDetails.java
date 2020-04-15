@@ -1,6 +1,7 @@
 
 package com.ytz.shop.dto;
 
+import com.ytz.shop.common.Constant;
 import com.ytz.shop.pojo.Permission;
 import com.ytz.shop.pojo.UserAdmin;
 import org.springframework.security.core.GrantedAuthority;
@@ -64,6 +65,6 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return userAdmin.getStatus().equals(UserAdmin.STATUS_ENABLE);
+        return userAdmin.getStatus().equals(Constant.STATUS_ENABLE);
     }
 }

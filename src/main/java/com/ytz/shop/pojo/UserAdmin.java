@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @ClassName: UserAdmin
@@ -23,14 +23,6 @@ import java.util.Date;
 public class UserAdmin implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    /**
-     * 启用
-     */
-    public static final int STATUS_ENABLE = 1;
-    /**
-     * 禁用
-     */
-    public static final int STATUS_DISABLE = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,13 +48,13 @@ public class UserAdmin implements Serializable {
     private String note;
 
     @ApiModelProperty(value = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @ApiModelProperty(value = "更新时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "最后登录时间")
-    private Date loginTime;
+    private LocalDateTime loginTime;
 
 
     @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
@@ -71,4 +63,8 @@ public class UserAdmin implements Serializable {
     // VO
     @Transient
     private boolean state;
+    @Transient
+    private String createTimeStr;
+    @Transient
+    private String updateTimeStr;
 }

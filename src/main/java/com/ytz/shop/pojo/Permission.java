@@ -2,10 +2,12 @@ package com.ytz.shop.pojo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName: Permission
@@ -15,6 +17,7 @@ import java.util.Date;
  */
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "shop_permission")
 public class Permission implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -49,4 +52,7 @@ public class Permission implements Serializable {
 
     @ApiModelProperty(value = "排序")
     private Integer sort;
+
+    @Transient
+    private List<Permission> children;
 }
