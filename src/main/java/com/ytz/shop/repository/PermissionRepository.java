@@ -2,6 +2,7 @@ package com.ytz.shop.repository;
 
 import com.ytz.shop.pojo.Permission;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @date: 2020/4/9 10:30
  */
 @Repository
-public interface PermissionRepository extends JpaRepository<Permission, Long> {
+public interface PermissionRepository extends JpaRepository<Permission, Long>, JpaSpecificationExecutor<Permission> {
 
     /**
      * 根据用户ID查询权限信息
@@ -51,4 +52,11 @@ public interface PermissionRepository extends JpaRepository<Permission, Long> {
             "            pr.type = 1\n" +
             "            AND pr.admin_id = ?1")
     List<Permission> findByAdminIdPermissionList(Long adminId);
+
+    /**
+     * 根据父ID查询
+     * @param pid
+     * @return
+     */
+    List<Permission> findByPid(Long pid);
 }

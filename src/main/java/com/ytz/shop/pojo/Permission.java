@@ -1,11 +1,15 @@
 package com.ytz.shop.pojo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +57,12 @@ public class Permission implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
-    @Transient
-    private List<Permission> children;
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "parentPermission")
+    private List<Permission> children = new ArrayList<>();
+
+    @JsonBackReference
+    @ManyToOne
+    @NotFound(action= NotFoundAction.IGNORE)
+    @JoinColumn(name = "pid", insertable = false, updatable = false)
+    private Permission parentPermission;
 }
