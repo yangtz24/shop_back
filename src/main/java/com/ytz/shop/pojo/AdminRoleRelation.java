@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Entity
 @Data
-@Table(name = "shop_admin_role_relation")
+@Table(name = "admin_role_relation")
 public class AdminRoleRelation implements Serializable {
     private static final long serialVersionUID = 1L;
 

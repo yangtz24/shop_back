@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "shop_admin")
+@Table(name = "admin")
 public class UserAdmin implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -19,7 +19,7 @@ import java.util.List;
  * @author: yangtianzeng
  * @date: 2020/4/11 9:59
  */
-@Api(tags = "MenuController", description = "菜单配置信息")
+@Api(tags = "MenuController", description = "菜单配置信息Controller")
 @RestController
 @RequestMapping("rest/menu")
 public class MenuController {

@@ -23,7 +23,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "shop_permission")
+@Table(name = "permission")
 public class Permission implements Serializable {
     private static final long serialVersionUID = 1L;
 

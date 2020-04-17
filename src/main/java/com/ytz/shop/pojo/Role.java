@@ -20,7 +20,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "shop_role")
+@Table(name = "role")
 public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -54,7 +54,7 @@ public class Role implements Serializable {
      */
     @JsonIgnoreProperties("roleList")
     @ManyToMany
-    @JoinTable(name = "shop_role_permission_relation", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    @JoinTable(name = "role_permission_relation", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
     private List<Permission> permissionList = new ArrayList<>();
 
     /**

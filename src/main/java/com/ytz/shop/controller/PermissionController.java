@@ -20,7 +20,7 @@ import java.util.List;
  * @author: yangtianzeng
  * @date: 2020/4/16 10:14
  */
-@Api(tags = "PermissionController", description = "权限控制层")
+@Api(tags = "PermissionController", description = "权限Controller")
 @RestController
 @RequestMapping("rest/permission")
 public class PermissionController {

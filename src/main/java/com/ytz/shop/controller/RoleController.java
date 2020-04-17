@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * @author: yangtianzeng
  * @date: 2020/4/14 15:21
  */
-@Api(tags = "RoleController", description = "角色控制层")
+@Api(tags = "RoleController", description = "角色Controller")
 @RestController
 @RequestMapping("rest/role")
 public class RoleController {
