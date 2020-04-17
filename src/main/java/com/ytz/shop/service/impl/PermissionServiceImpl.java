@@ -32,7 +32,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public List<Permission> getParentAndChildren() {
-        List<Permission> permissions = permissionRepository.findByPid(0L);
+        List<Permission> permissions = permissionRepository.findByParentId(0L);
         return permissions;
     }
 

@@ -1,5 +1,6 @@
 package com.ytz.shop.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName: Role
@@ -42,6 +45,17 @@ public class Role implements Serializable {
 
     @ApiModelProperty(value = "排序")
     private Integer sort;
+
+    /**
+     * 1. 多对多，关系维护端，负责多对多关系的绑定与解除
+     * 2. @JoinTable注解的name属性指定关联表的名字，joinColumns指定外键的名字，关联到关系维护端
+     * 3. inverseJoinColumns指定外键的名字，要关联的关系被维护端
+     * 4. 默认生成的关联表名称为主表表名+下划线+从表表名
+     */
+    @JsonIgnoreProperties("roleList")
+    @ManyToMany
+    @JoinTable(name = "shop_role_permission_relation", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    private List<Permission> permissionList = new ArrayList<>();
 
     /**
      * VO

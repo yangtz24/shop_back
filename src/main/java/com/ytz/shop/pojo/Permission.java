@@ -1,6 +1,7 @@
 package com.ytz.shop.pojo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,7 @@ public class Permission implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "父级权限id")
-    private Long pid;
+    private Long parentId;
 
     @ApiModelProperty(value = "名称")
     private String name;
@@ -57,12 +58,16 @@ public class Permission implements Serializable {
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "parentPermission")
+    @OneToMany(mappedBy = "parentPermission")
     private List<Permission> children = new ArrayList<>();
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(targetEntity = Permission.class, cascade = CascadeType.ALL)
     @NotFound(action= NotFoundAction.IGNORE)
-    @JoinColumn(name = "pid", insertable = false, updatable = false)
+    @JoinColumn(name = "parentId", insertable = false, updatable = false)
     private Permission parentPermission;
+
+    @JsonIgnoreProperties("permissionList")
+    @ManyToMany(mappedBy = "permissionList", cascade = CascadeType.ALL)
+    private List<Role> roleList;
 }

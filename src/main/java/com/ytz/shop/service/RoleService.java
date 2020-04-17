@@ -32,4 +32,13 @@ public interface RoleService {
      * @return
      */
     int modifyStatus(Long id, Integer status);
+
+    /**
+     * 根据 roleId 查询某个角色下的权限信息
+     * @param roleId
+     * @return
+     */
+    Role getPermissionsByRoleId(Long roleId);
+
+
 }

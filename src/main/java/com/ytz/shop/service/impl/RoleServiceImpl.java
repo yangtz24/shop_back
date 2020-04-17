@@ -3,6 +3,7 @@ package com.ytz.shop.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.common.Constant;
 import com.ytz.shop.pojo.Role;
+import com.ytz.shop.repository.PermissionRepository;
 import com.ytz.shop.repository.RoleRepository;
 import com.ytz.shop.service.RoleService;
 import com.ytz.shop.util.DateUtil;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName: RoleServiceImpl
@@ -33,6 +35,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private PermissionRepository permissionRepository;
 
     @Override
     public Page<Role> list(Integer pageNum, Integer pageSize, String key) {
@@ -72,5 +77,12 @@ public class RoleServiceImpl implements RoleService {
     public int modifyStatus(Long id, Integer status) {
         int result = roleRepository.updateStatusById(id, status);
         return result;
+    }
+
+    @Override
+    public Role getPermissionsByRoleId(Long roleId) {
+        Optional<Role> optional = roleRepository.findById(roleId);
+        Role role = optional.get();
+        return role;
     }
 }

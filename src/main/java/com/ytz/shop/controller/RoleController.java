@@ -1,6 +1,7 @@
 package com.ytz.shop.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ytz.shop.common.CommonResult;
 import com.ytz.shop.pojo.Role;
 import com.ytz.shop.service.RoleService;
@@ -26,7 +27,7 @@ public class RoleController {
 
     @ApiOperation("分页查询")
     @GetMapping("")
-    public CommonResult<Page<Role>> list(Integer currentPage, Integer pageSize, String key) {
+    public CommonResult<Page<Role>> list(@RequestParam(defaultValue = "1") Integer currentPage, @RequestParam(defaultValue = "10") Integer pageSize, String key) {
         Page<Role> roles = roleService.list(currentPage, pageSize, key);
         if (CollUtil.isNotEmpty(roles)) {
             return CommonResult.success(roles);
@@ -49,5 +50,15 @@ public class RoleController {
     public CommonResult remove(@PathVariable Long id) {
         roleService.remove(id);
         return CommonResult.success(1, "删除操作成功！！！");
+    }
+
+    @ApiOperation("查询角色下的权限信息")
+    @GetMapping("{roleId}/permissions")
+    public CommonResult<Role> getOneRolePermissions(@PathVariable Long roleId) {
+        Role role = roleService.getPermissionsByRoleId(roleId);
+        if (ObjectUtil.isNotEmpty(role)) {
+            return CommonResult.success(role);
+        }
+        return CommonResult.failed("查询失败");
     }
 }
