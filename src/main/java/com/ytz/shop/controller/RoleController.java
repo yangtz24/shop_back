@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @ClassName: RoleController
  * @Description: 角色控制层
@@ -58,6 +60,16 @@ public class RoleController {
         Role role = roleService.getPermissionsByRoleId(roleId);
         if (ObjectUtil.isNotEmpty(role)) {
             return CommonResult.success(role);
+        }
+        return CommonResult.failed("查询失败");
+    }
+
+    @ApiOperation("查询全部")
+    @GetMapping("all")
+    public CommonResult<List<Role>> all() {
+        List<Role> roleList = roleService.getAll();
+        if (CollUtil.isNotEmpty(roleList)) {
+            return CommonResult.success(roleList);
         }
         return CommonResult.failed("查询失败");
     }

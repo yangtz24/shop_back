@@ -16,6 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
     @Modifying
-    @Query(nativeQuery = true, value = "UPDATE SHOP_ROLE SET status = ?2 WHERE id = ?1")
+    @Query(nativeQuery = true, value = "UPDATE ROLE SET status = ?2 WHERE id = ?1")
     int updateStatusById(Long id, Integer status);
 }

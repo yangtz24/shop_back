@@ -85,4 +85,9 @@ public class RoleServiceImpl implements RoleService {
         Role role = optional.get();
         return role;
     }
+
+    @Override
+    public List<Role> getAll() {
+        return roleRepository.findAll();
+    }
 }

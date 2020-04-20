@@ -1,5 +1,6 @@
 package com.ytz.shop.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @ClassName: UserAdmin
@@ -59,6 +61,13 @@ public class UserAdmin implements Serializable {
 
     @ApiModelProperty(value = "帐号启用状态：0->禁用；1->启用")
     private Integer status;
+
+    @JsonIgnoreProperties("adminList")
+    @ManyToMany
+    @JoinTable(name = "admin_role_relation",
+            joinColumns = @JoinColumn(name = "adminId"),
+            inverseJoinColumns = @JoinColumn(name = "roleId"))
+    private List<Role> roles;
 
     // VO
     @Transient

@@ -54,8 +54,14 @@ public class Role implements Serializable {
      */
     @JsonIgnoreProperties("roleList")
     @ManyToMany
-    @JoinTable(name = "role_permission_relation", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    @JoinTable(name = "role_permission_relation",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id"))
     private List<Permission> permissionList = new ArrayList<>();
+
+    @JsonIgnoreProperties("roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+    private List<UserAdmin> adminList;
 
     /**
      * VO

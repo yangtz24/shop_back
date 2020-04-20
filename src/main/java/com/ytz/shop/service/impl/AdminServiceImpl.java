@@ -5,8 +5,10 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.common.Constant;
 import com.ytz.shop.pojo.Permission;
+import com.ytz.shop.pojo.Role;
 import com.ytz.shop.pojo.UserAdmin;
 import com.ytz.shop.repository.PermissionRepository;
+import com.ytz.shop.repository.RoleRepository;
 import com.ytz.shop.repository.UserAdminRepository;
 import com.ytz.shop.service.AdminService;
 import com.ytz.shop.util.DateUtil;
@@ -37,6 +39,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+
 /**
  * @ClassName: AdminServiceImpl
  * @Description: 后台用户 业务实现
@@ -62,6 +66,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private PermissionRepository permissionRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
@@ -179,6 +186,11 @@ public class AdminServiceImpl implements AdminService {
     public UserAdmin add(UserAdmin admin) {
         admin.setCreateTime(LocalDateTime.now(ZoneId.of("+8")));
         admin.setStatus(Constant.STATUS_ENABLE);
+        // 处理密码加密
+        String password = admin.getPassword();
+        //密码加密
+        String encodePassword = passwordEncoder.encode(password);
+        admin.setPassword(encodePassword);
         UserAdmin userAdmin = userAdminRepository.save(admin);
         return userAdmin;
     }
@@ -200,5 +212,18 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void remove(Long id) {
         userAdminRepository.deleteById(id);
+    }
+
+    @Override
+    public void assignRole(Long adminId, List<Long> roleIds) {
+        final Optional<UserAdmin> adminOptional = userAdminRepository.findById(adminId);
+        final UserAdmin userAdmin = adminOptional.get();
+
+        // 添加角色信息
+        final List<Role> roleList = roleRepository.findAllById(roleIds);
+        userAdmin.setRoles(roleList);
+
+        // 保存
+        userAdminRepository.saveAndFlush(userAdmin);
     }
 }

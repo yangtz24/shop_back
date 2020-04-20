@@ -38,7 +38,7 @@ public interface UserAdminRepository extends JpaRepository<UserAdmin, Long>, Jpa
      * @param date
      */
     @Modifying
-    @Query(nativeQuery = true, value = "UPDATE SHOP_ADMIN SET login_time = ?2 WHERE id = ?1 ")
+    @Query(nativeQuery = true, value = "UPDATE ADMIN SET login_time = ?2 WHERE id = ?1 ")
     void updateLoginDate(String username, Date date);
 
     /**
@@ -48,7 +48,7 @@ public interface UserAdminRepository extends JpaRepository<UserAdmin, Long>, Jpa
      * @return
      */
     @Modifying
-    @Query(nativeQuery = true, value = "UPDATE SHOP_ADMIN SET status = ?2 WHERE id = ?1")
+    @Query(nativeQuery = true, value = "UPDATE ADMIN SET status = ?2 WHERE id = ?1")
     int updateStatus(Long id, Integer status);
 
 
@@ -58,6 +58,6 @@ public interface UserAdminRepository extends JpaRepository<UserAdmin, Long>, Jpa
      * @return
      */
     @Modifying
-    @Query( nativeQuery = true, value = "UPDATE SHOP_ADMIN SET nick_name= :#{#admin.nickName}, email= :#{#admin.email}, mobile= :#{#admin.mobile}, update_time = :#{#admin.updateTime} WHERE id = :#{#admin.id}")
+    @Query( nativeQuery = true, value = "UPDATE ADMIN SET nick_name= :#{#admin.nickName}, email= :#{#admin.email}, mobile= :#{#admin.mobile}, update_time = :#{#admin.updateTime} WHERE id = :#{#admin.id}")
     int update(@Param("admin") UserAdmin userAdmin);
 }

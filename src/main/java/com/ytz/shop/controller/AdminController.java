@@ -7,6 +7,7 @@ import com.ytz.shop.dto.AdminLoginParam;
 import com.ytz.shop.pojo.Permission;
 import com.ytz.shop.pojo.UserAdmin;
 import com.ytz.shop.service.AdminService;
+import com.ytz.shop.vo.RoleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +98,7 @@ public class AdminController {
 
     @ApiOperation("分页查询")
     @GetMapping("page")
-    public CommonResult<Page<UserAdmin>> list(@RequestParam("pageNumber") Integer pageNum, Integer pageSize, @RequestParam("query") String key, String phone, Integer status) {
+    public CommonResult<Page<UserAdmin>> list(@RequestParam("pageNumber") Integer pageNum, Integer pageSize, @RequestParam(name = "query", required = false) String key, String phone, Integer status) {
         Page<UserAdmin> page = adminService.list(pageNum, pageSize, key, phone, status);
         if (CollUtil.isNotEmpty(page)) {
             return CommonResult.success(page);
@@ -129,6 +131,13 @@ public class AdminController {
     public CommonResult remove(@PathVariable Long id) {
         adminService.remove(id);
         return CommonResult.success(1, "删除操作成功！！！");
+    }
+
+    @ApiOperation("分配角色")
+    @PutMapping("assign/{id}/role")
+    public CommonResult assignRole(@PathVariable("id") Long adminId , @RequestBody RoleVO roleVO) {
+        adminService.assignRole(adminId, Arrays.asList(roleVO.getRoleIds()));
+        return CommonResult.success(1, "操作成功！！！");
     }
 
 

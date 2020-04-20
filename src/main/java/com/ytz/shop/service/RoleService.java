@@ -3,6 +3,8 @@ package com.ytz.shop.service;
 import com.ytz.shop.pojo.Role;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 /**
  * @ClassName: RoleService
  * @Description: 角色 业务接口
@@ -40,5 +42,9 @@ public interface RoleService {
      */
     Role getPermissionsByRoleId(Long roleId);
 
-
+    /**
+     * 获取全部
+     * @return
+     */
+    List<Role> getAll();
 }

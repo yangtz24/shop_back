@@ -88,4 +88,11 @@ public interface AdminService {
      * @return
      */
     void remove(Long id);
+
+    /**
+     * 分配角色
+     * @param adminId
+     * @param roleIds
+     */
+    void assignRole(Long adminId, List<Long> roleIds);
 }
