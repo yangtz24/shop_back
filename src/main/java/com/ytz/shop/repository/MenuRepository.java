@@ -15,5 +15,10 @@ import java.util.List;
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
+    /**
+     * 查询父类菜单
+     * @param parentId
+     * @return
+     */
     List<Menu> findAllByParentId(Long parentId);
 }

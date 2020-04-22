@@ -1,11 +1,16 @@
 package com.ytz.shop.pojo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName: GoodsCategory
@@ -19,6 +24,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class GoodsCategory implements Serializable {
     private static final long serialVersionUID = -1497986202894211267L;
+
+    public static final int DELETED_NO = 0;
+    public static final int DELETED_YES = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +49,14 @@ public class GoodsCategory implements Serializable {
 
     @ApiModelProperty("资源路径")
     private String src;
+
+
+    @OneToMany(mappedBy = "parentCategory")
+    private List<GoodsCategory> children = new ArrayList<>();
+
+    @JsonBackReference
+    @ManyToOne(targetEntity = GoodsCategory.class, cascade = CascadeType.ALL)
+    @NotFound(action= NotFoundAction.IGNORE)
+    @JoinColumn(name = "parentId", insertable = false, updatable = false)
+    private GoodsCategory parentCategory;
 }

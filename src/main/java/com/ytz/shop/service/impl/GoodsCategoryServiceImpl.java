@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName: GoodsCategoryServiceImpl
@@ -47,5 +48,44 @@ public class GoodsCategoryServiceImpl implements GoodsCategoryService {
         };
         Page<GoodsCategory> categories = categoryRepository.findAll(specification, pageable);
         return categories;
+    }
+
+    @Override
+    public List<GoodsCategory> cascadeList() {
+        final List<GoodsCategory> categoryList = categoryRepository.findByParentId(0L);
+        return categoryList;
+
+    }
+
+    @Override
+    public void remove(Long id) {
+        categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public GoodsCategory add(GoodsCategory category) {
+        category.setDeleted(GoodsCategory.DELETED_NO);
+        GoodsCategory goodsCategory = categoryRepository.save(category);
+        return goodsCategory;
+    }
+
+    @Override
+    public GoodsCategory edit(Long id, GoodsCategory goodsCategory) {
+        goodsCategory.setId(id);
+        GoodsCategory category = categoryRepository.saveAndFlush(goodsCategory);
+        return category;
+    }
+
+    @Override
+    public GoodsCategory detail(Long id) {
+        Optional<GoodsCategory> categoryOptional = categoryRepository.findById(id);
+        GoodsCategory category = categoryOptional.get();
+        return category;
+    }
+
+    @Override
+    public List<GoodsCategory> all() {
+        List<GoodsCategory> all = categoryRepository.findAll();
+        return all;
     }
 }
