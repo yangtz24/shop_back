@@ -139,6 +139,4 @@ public class AdminController {
         adminService.assignRole(adminId, Arrays.asList(roleVO.getRoleIds()));
         return CommonResult.success(1, "操作成功！！！");
     }
-
-
 }
