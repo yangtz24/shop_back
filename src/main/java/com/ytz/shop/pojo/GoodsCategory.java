@@ -59,4 +59,9 @@ public class GoodsCategory implements Serializable {
     @NotFound(action= NotFoundAction.IGNORE)
     @JoinColumn(name = "parentId", insertable = false, updatable = false)
     private GoodsCategory parentCategory;
+
+//    @OneToMany(mappedBy = "category")
+  /*  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "cateId")
+    private List<Attribute> attributes = new ArrayList<>();*/
 }

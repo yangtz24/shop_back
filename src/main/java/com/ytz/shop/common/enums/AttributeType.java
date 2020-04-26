@@ -7,6 +7,6 @@ package com.ytz.shop.common.enums;
  * @date: 2020/4/22 17:10
  */
 public enum AttributeType {
-    ONLY,
+    only,
     many
 }

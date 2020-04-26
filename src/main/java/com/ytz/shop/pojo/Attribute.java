@@ -25,6 +25,9 @@ public class Attribute implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ApiModelProperty("分类ID")
+    private Long cateId;
+
     @ApiModelProperty("属性名称")
     private String name;
 
@@ -43,5 +46,10 @@ public class Attribute implements Serializable {
 
     @ApiModelProperty("删除标志 0:未删除  1:已删除")
     private Integer deleted;
+
+    // ERROR 8008 --- [  restartedMain] com.alibaba.druid.pool.DruidDataSource   : discard connection
+ /*   @ManyToOne
+    @JoinColumn(name = "cateId", insertable = false, updatable = false)
+    private GoodsCategory category;*/
 
 }
