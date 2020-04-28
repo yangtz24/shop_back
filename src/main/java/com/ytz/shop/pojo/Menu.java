@@ -18,6 +18,7 @@ import java.util.List;
 public class Menu implements Serializable {
 
     public static final Long ONE_MENU = 0L;
+    private static final long serialVersionUID = 8880934244628827826L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
