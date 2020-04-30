@@ -5,6 +5,9 @@ import com.ytz.shop.common.enums.AttributeWriteType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,9 +22,22 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @Table(name = "attribute")
+@DynamicInsert
+@DynamicUpdate
 public class Attribute implements Serializable {
 
     private static final long serialVersionUID = -847751782790472600L;
+
+    /**
+     * 未删除
+     */
+    public static final int UN_DELETED = 0;
+    /**
+     * 已删除
+     */
+    public static final int DELETED = 1;
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,6 +55,7 @@ public class Attribute implements Serializable {
 
     @ApiModelProperty("manual:手工录入  list:从列表选择")
     @Column(name = "write_type")
+    @ColumnDefault("manual")
     @Enumerated(EnumType.STRING)
     private AttributeWriteType writeType;
 

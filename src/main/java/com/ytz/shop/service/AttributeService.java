@@ -19,4 +19,38 @@ public interface AttributeService {
      * @return
      */
     List<Attribute> getByCategoryId(Long cateId, String type);
+
+    /**
+     * 添加参数
+     * @param cateId
+     * @param attr
+     * @return
+     */
+    Attribute add(Long cateId, Attribute attr);
+
+    /**
+     * 修改参数数据
+     * @param cateId
+     * @param id
+     * @param attr
+     * @return
+     */
+    Integer edit(Long cateId, Long id, Attribute attr);
+
+    /**
+     * 查询参数详情，根据参数类型、分类ID和ID
+     * @param cateId
+     * @param id
+     * @param type
+     * @return
+     */
+    Attribute detail(Long cateId, Long id, String type);
+
+    /**
+     * 删除属性信息
+     * @param cateId
+     * @param id
+     * @return
+     */
+    Integer remove(Long cateId, Long id);
 }

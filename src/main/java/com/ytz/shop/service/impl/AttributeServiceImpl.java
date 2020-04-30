@@ -30,13 +30,50 @@ public class AttributeServiceImpl implements AttributeService {
             type = AttributeType.only.toString();
         }
 
-        AttributeType attributeType = null;
-        for (AttributeType attributeType1 : AttributeType.values()) {
-            if (type.equals(attributeType1.toString())) {
-                attributeType = attributeType1;
+        AttributeType attributeType = setType(type);
+        List<Attribute> attributes = attributeRepository.findByCateIdAndDeletedAndType(cateId, Attribute.UN_DELETED, attributeType);
+        return attributes;
+    }
+
+    // 转化数据类型
+    private AttributeType setType(String type) {
+        AttributeType attrType = null;
+        for (AttributeType attributeType : AttributeType.values()) {
+            if (type.equals(attributeType.toString())) {
+                attrType = attributeType;
             }
         }
-        List<Attribute> attributes = attributeRepository.findByCateIdAndType(cateId, attributeType);
-        return attributes;
+        return attrType;
+    }
+
+    @Override
+    public Attribute add(Long cateId, Attribute attr) {
+        attr.setCateId(cateId);
+        Attribute attribute = attributeRepository.save(attr);
+        return attribute;
+    }
+
+    @Override
+    public Integer edit(Long cateId, Long id, Attribute attr) {
+        attr.setCateId(cateId);
+        attr.setId(id);
+        Integer result = attributeRepository.update(attr);
+        return result;
+    }
+
+    @Override
+    public Attribute detail(Long cateId, Long id, String type) {
+        if (StrUtil.isBlank(type)) {
+            type = AttributeType.only.toString();
+        }
+        AttributeType attributeType = setType(type);
+        Attribute attribute = attributeRepository.findByCateIdAndIdAndType(cateId, id, attributeType);
+        return attribute;
+    }
+
+    @Override
+    public Integer remove(Long cateId, Long id) {
+        int result = attributeRepository.delete(cateId, id);
+        return result;
     }
 }
