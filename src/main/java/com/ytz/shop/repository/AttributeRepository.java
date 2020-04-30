@@ -43,7 +43,7 @@ public interface AttributeRepository extends JpaRepository<Attribute, Long> {
      * @return
      */
     @Modifying
-    @Query(value = "UPDATE Attribute a SET a.name = :#{#attr.name} WHERE a.id = :#{#attr.id} AND a.cateId = :#{#attr.cateId} AND a.type = :#{#attr.type}")
+    @Query(value = "UPDATE Attribute a SET a.name = :#{#attr.name}, a.values = :#{#attr.values} WHERE a.id = :#{#attr.id} AND a.cateId = :#{#attr.cateId} AND a.type = :#{#attr.type}")
     int update(@Param("attr") Attribute attribute);
 
     /**

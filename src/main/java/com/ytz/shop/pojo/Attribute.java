@@ -60,6 +60,7 @@ public class Attribute implements Serializable {
     private AttributeWriteType writeType;
 
     @ApiModelProperty("可选值列表信息,例如颜色：白色,红色,绿色,多个可选值通过逗号分隔")
+    @Column(name = "vals")
     private String values;
 
     @ApiModelProperty("删除标志 0:未删除  1:已删除")
