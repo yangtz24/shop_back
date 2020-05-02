@@ -56,8 +56,8 @@ public class GoodsServiceImpl implements GoodsService {
         Specification<Goods> specification = (root, query, criteriaBuilder) -> {
             List<Predicate> list = new ArrayList<>();
             if (StrUtil.isNotEmpty(key)) {
-                Predicate p3 = criteriaBuilder.like(root.get("name"), key + "%");
-                list.add(p3);
+                Predicate p = criteriaBuilder.like(root.get("name"), key + "%");
+                list.add(p);
             }
             return criteriaBuilder.and(list.toArray(new Predicate[0]));
         };
