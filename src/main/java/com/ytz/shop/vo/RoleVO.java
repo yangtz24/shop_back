@@ -12,10 +12,12 @@ import java.io.Serializable;
  * @author: yangtianzeng
  * @date: 2020/4/20 18:12
  */
-@Setter
-@Getter
 @NoArgsConstructor
 public class RoleVO implements Serializable {
 
     private Long[] roleIds;
+
+    public Long[] getRoleIds() {
+        return roleIds;
+    }
 }

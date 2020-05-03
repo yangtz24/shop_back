@@ -35,10 +35,16 @@ import java.util.Map;
 @RequestMapping("rest/admin")
 public class AdminController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
-
-    @Autowired
     private AdminService adminService;
+
+    /**
+     * set 注入
+     * @param adminService ：用户业务
+     */
+    @Autowired
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
+    }
 
     @Value("${jwt.tokenHeader}")
     private String tokenHeader;
@@ -58,7 +64,7 @@ public class AdminController {
 
     @ApiOperation("登录成功后，返回token信息")
     @PostMapping("login")
-    public CommonResult login(@RequestBody AdminLoginParam AdminLoginParam, BindingResult result) {
+    public CommonResult<Object> login(@RequestBody AdminLoginParam AdminLoginParam, BindingResult result) {
         String token = adminService.login(AdminLoginParam.getUsername(), AdminLoginParam.getPassword());
         if(StringUtils.isEmpty(token)) {
             return CommonResult.validateFailed("用户名或密码错误");
@@ -128,14 +134,14 @@ public class AdminController {
 
     @ApiOperation("删除用户信息")
     @DeleteMapping("remove/{id}")
-    public CommonResult remove(@PathVariable Long id) {
+    public CommonResult<Object> remove(@PathVariable Long id) {
         adminService.remove(id);
         return CommonResult.success(1, "删除操作成功！！！");
     }
 
     @ApiOperation("分配角色")
     @PutMapping("assign/{id}/role")
-    public CommonResult assignRole(@PathVariable("id") Long adminId , @RequestBody RoleVO roleVO) {
+    public CommonResult<Object> assignRole(@PathVariable("id") Long adminId , @RequestBody RoleVO roleVO) {
         adminService.assignRole(adminId, Arrays.asList(roleVO.getRoleIds()));
         return CommonResult.success(1, "操作成功！！！");
     }
