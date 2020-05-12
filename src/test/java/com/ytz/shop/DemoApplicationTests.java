@@ -7,9 +7,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 class DemoApplicationTests {
+
+    static final Integer K = 1024;
 
     @Test
     void contextLoads() {
@@ -31,6 +36,17 @@ class DemoApplicationTests {
     @Test
     void test1() {
         classA.b();
+    }
+
+    @Test
+    void test2() {
+        int size = K * K * 8;
+        List<byte[]> bytes = new ArrayList<>();
+        for (int i = 0; i < K; i++) {
+            System.out.println("JVM 写入数据" + (i + 1) + "M");
+            try { TimeUnit.MILLISECONDS.sleep(3000);} catch (InterruptedException e) {e.printStackTrace();}
+            bytes.add(new byte[size]);
+        }
     }
 
 }
