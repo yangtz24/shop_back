@@ -3,11 +3,16 @@ package com.ytz.shop.service.impl;
 import com.ytz.shop.pojo.Report;
 import com.ytz.shop.repository.ReportRepository;
 import com.ytz.shop.service.ReportService;
+import com.ytz.shop.vo.ReportVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * @ClassName: ReportServiceImpl
@@ -23,7 +28,17 @@ public class ReportServiceImpl implements ReportService {
     private ReportRepository reportRepository;
 
     @Override
-    public List<Report> getAll() {
-        return reportRepository.findAll();
+    public List<ReportVO> getAll() {
+        List<Report> all = reportRepository.findAll();
+        // 分组
+        Map<String, List<Report>> map = all.stream().collect(groupingBy(report -> report.getArea()));
+        List<ReportVO> list = new ArrayList<>();
+        map.forEach((key, value) -> {
+            ReportVO reportVO = new ReportVO();
+            reportVO.setArea(key);
+            reportVO.setReports(value);
+            list.add(reportVO);
+        });
+        return list;
     }
 }

@@ -2,8 +2,8 @@ package com.ytz.shop.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import com.ytz.shop.common.CommonResult;
-import com.ytz.shop.pojo.Report;
 import com.ytz.shop.service.ReportService;
+import com.ytz.shop.vo.ReportVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,8 @@ public class ReportController {
 
     @ApiOperation("查询全部")
     @GetMapping("")
-    public CommonResult<List<Report>> all() {
-        List<Report> reports = reportService.getAll();
+    public CommonResult<List<ReportVO>> all() {
+        List<ReportVO> reports = reportService.getAll();
         if (CollUtil.isNotEmpty(reports)) {
             return CommonResult.success(reports);
         }
