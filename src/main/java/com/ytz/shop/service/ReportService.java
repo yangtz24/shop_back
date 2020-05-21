@@ -1,6 +1,6 @@
 package com.ytz.shop.service;
 
-import com.ytz.shop.pojo.Report;
+import com.ytz.shop.vo.ReportVO;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface ReportService {
      * 查询所有
      * @return
      */
-    List<Report> getAll();
+    List<ReportVO> getAll();
 }
