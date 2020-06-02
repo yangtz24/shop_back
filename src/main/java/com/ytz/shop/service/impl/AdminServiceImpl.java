@@ -13,6 +13,7 @@ import com.ytz.shop.repository.UserAdminRepository;
 import com.ytz.shop.service.AdminService;
 import com.ytz.shop.util.DateUtil;
 import com.ytz.shop.util.JwtTokenUtil;
+import com.ytz.shop.util.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName: AdminServiceImpl
@@ -51,6 +53,8 @@ import java.util.Optional;
 @Transactional
 public class AdminServiceImpl implements AdminService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdminServiceImpl.class);
+
+    public static final String TOKEN_PREFIX = "admin_token";
 
     @Autowired
     private UserAdminRepository userAdminRepository;
@@ -69,6 +73,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private RedisUtils redisUtils;
+
+    @Value("${redis.key.admin}")
+    private String REDIS_KEY_ADMIN;
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
@@ -91,6 +101,10 @@ public class AdminServiceImpl implements AdminService {
 
         //添加
         UserAdmin uAdmin = userAdminRepository.save(admin);
+        if (ObjectUtil.isNotEmpty(uAdmin)) {
+            String key = REDIS_KEY_ADMIN + ":" + userAdmin.getUsername();
+            redisUtils.set(key, uAdmin, 30, TimeUnit.DAYS);
+        }
         return uAdmin;
     }
 
@@ -106,20 +120,32 @@ public class AdminServiceImpl implements AdminService {
                     null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             token = jwtTokenUtil.generateToken(userDetails);
-           // userAdminRepository.updateLoginDate(username, new Date());
         } catch (AuthenticationException e) {
             e.printStackTrace();
             LOGGER.warn("登录异常:{}", e.getMessage());
+        }
+
+        if (StrUtil.isNotEmpty(token)) {
+            String key = TOKEN_PREFIX ;
+            redisUtils.set(key, token, 3, TimeUnit.HOURS);
         }
         return token;
     }
 
     @Override
     public UserAdmin getAdminByUsername(String username) {
-        UserAdmin userAdmin = userAdminRepository.findByUsername(username);
+        String key = REDIS_KEY_ADMIN + ":" + username;
+        UserAdmin userAdmin = (UserAdmin) redisUtils.get(key);
+        redisUtils.set(key, userAdmin);
         if (ObjectUtil.isNotEmpty(userAdmin)) {
             return userAdmin;
         }
+        UserAdmin admin = userAdminRepository.findByUsername(username);
+        if (ObjectUtil.isNotEmpty(admin)) {
+            redisUtils.set(key, admin, 30, TimeUnit.DAYS);
+            return admin;
+        }
+
         return null;
     }
 

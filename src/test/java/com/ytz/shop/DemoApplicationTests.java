@@ -39,6 +39,13 @@ class DemoApplicationTests {
     }
 
     @Test
+    void test4() {
+        int i = 0;
+        int r = ++i + i++ + ++i + i++;
+        System.out.println(r);
+    }
+
+    @Test
     void test2() {
         int size = K * K * 8;
         List<byte[]> bytes = new ArrayList<>();
