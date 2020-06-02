@@ -18,4 +18,9 @@ public class TestController {
     public String get() {
         return "Hello Spring Security";
     }
+
+    @GetMapping("jenkins")
+    public String jenkins() {
+        return "Hello Jenkins";
+    }
 }
