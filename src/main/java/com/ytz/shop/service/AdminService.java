@@ -95,4 +95,9 @@ public interface AdminService {
      * @param roleIds
      */
     void assignRole(Long adminId, List<Long> roleIds);
+
+    /**
+     * 退出登录
+     */
+    void logout();
 }

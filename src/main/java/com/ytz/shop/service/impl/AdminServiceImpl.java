@@ -1,9 +1,12 @@
 package com.ytz.shop.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.common.Constant;
+import com.ytz.shop.constants.MailConstants;
+import com.ytz.shop.pojo.MessageLog;
 import com.ytz.shop.pojo.Permission;
 import com.ytz.shop.pojo.Role;
 import com.ytz.shop.pojo.UserAdmin;
@@ -11,11 +14,14 @@ import com.ytz.shop.repository.PermissionRepository;
 import com.ytz.shop.repository.RoleRepository;
 import com.ytz.shop.repository.UserAdminRepository;
 import com.ytz.shop.service.AdminService;
+import com.ytz.shop.service.MessageLogService;
 import com.ytz.shop.util.DateUtil;
 import com.ytz.shop.util.JwtTokenUtil;
 import com.ytz.shop.util.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +32,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,10 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.Predicate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -63,6 +67,12 @@ public class AdminServiceImpl implements AdminService {
     private UserDetailsService userDetailsService;
 
     @Autowired
+    private MessageLogService messageLogService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -75,7 +85,7 @@ public class AdminServiceImpl implements AdminService {
     private RoleRepository roleRepository;
 
     @Autowired
-    private RedisUtils redisUtils;
+    private RedisUtils<Object> redisUtils;
 
     @Value("${redis.key.admin}")
     private String REDIS_KEY_ADMIN;
@@ -126,7 +136,7 @@ public class AdminServiceImpl implements AdminService {
         }
 
         if (StrUtil.isNotEmpty(token)) {
-            String key = TOKEN_PREFIX ;
+            String key = TOKEN_PREFIX  + ":" + username;
             redisUtils.set(key, token, 3, TimeUnit.HOURS);
         }
         return token;
@@ -218,14 +228,47 @@ public class AdminServiceImpl implements AdminService {
         String encodePassword = passwordEncoder.encode(password);
         admin.setPassword(encodePassword);
         UserAdmin userAdmin = userAdminRepository.save(admin);
+        if (ObjectUtil.isNotEmpty(userAdmin)) {
+            UserAdmin user = userAdminRepository.findById(userAdmin.getId()).get();
+            // 生成唯一性 消息ID
+            String msgId = UUID.randomUUID(true).toString();
+            MessageLog messageLog = new MessageLog();
+            messageLog.setMsgId(msgId);
+            messageLog.setCreateTime(new Date());
+            messageLog.setExchange(MailConstants.MAIL_EXCHANGE_NAME);
+            messageLog.setRoutingKey(MailConstants.MAIL_ROUTING_KEY_NAME);
+            messageLog.setContentId(user.getId());
+            messageLog.setStatus(MailConstants.DELIVERING);
+            messageLog.setTryCount(0);
+            long time = System.currentTimeMillis() + 1000 * 60 * MailConstants.MSG_TIMEOUT;
+            messageLog.setNextTryTime(new Date(time));
+            messageLog.setCreateTime(new Date());
+            int add = messageLogService.add(messageLog);
+            if (add > 0) {
+                // 向 rabbitmq 中发送消息
+                rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME, MailConstants.MAIL_ROUTING_KEY_NAME, user, new CorrelationData(msgId));
+            }
+
+        }
         return userAdmin;
     }
 
     @Override
     public int edit(UserAdmin userAdmin, Long id) {
+        // 删除 redis缓存数据
+        String key = REDIS_KEY_ADMIN + ":" + userAdmin.getUsername();
+        redisUtils.del(key);
+
         userAdmin.setId(id);
         userAdmin.setUpdateTime(LocalDateTime.now(ZoneId.of("+8")));
         int result = userAdminRepository.update(userAdmin);
+        if (result > 1) {
+            Optional<UserAdmin> optional = userAdminRepository.findById(id);
+            if (ObjectUtil.isNotEmpty(optional)) {
+                UserAdmin admin = optional.get();
+                redisUtils.set(key, admin, 30, TimeUnit.DAYS);
+            }
+        }
         return result;
     }
 
@@ -237,6 +280,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void remove(Long id) {
+
+        Optional<UserAdmin> optional = userAdminRepository.findById(id);
+        if (ObjectUtil.isNotEmpty(optional)) {
+            UserAdmin userAdmin = optional.get();
+            String key = REDIS_KEY_ADMIN + ":" + userAdmin.getUsername();
+            redisUtils.del(key);
+        }
         userAdminRepository.deleteById(id);
     }
 
@@ -251,5 +301,15 @@ public class AdminServiceImpl implements AdminService {
 
         // 保存
         userAdminRepository.saveAndFlush(userAdmin);
+    }
+
+    @Override
+    public void logout() {
+        // 获取当前用户信息
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        // 删除 缓存token信息
+        /*String key = TOKEN_PREFIX + ":" + userAdmin.getUsername();
+        redisUtils.del(key);*/
     }
 }

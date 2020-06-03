@@ -10,8 +10,6 @@ import com.ytz.shop.service.AdminService;
 import com.ytz.shop.vo.RoleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -144,5 +142,12 @@ public class AdminController {
     public CommonResult<Object> assignRole(@PathVariable("id") Long adminId , @RequestBody RoleVO roleVO) {
         adminService.assignRole(adminId, Arrays.asList(roleVO.getRoleIds()));
         return CommonResult.success(1, "操作成功！！！");
+    }
+
+    @ApiOperation("退出登录")
+    @GetMapping("logout")
+    public CommonResult<?> logout() {
+        adminService.logout();
+        return CommonResult.success(1, "退出登录成功！！！");
     }
 }

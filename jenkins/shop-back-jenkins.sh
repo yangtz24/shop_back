@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 app_name='shop'
-#project_id='basketboy'
+project_id='basketboy'
 docker_registry='123.56.143.183:5000'
 container_name='shop'
 # image_tag=${docker_registry}/${project_id}:${POM_VERSION}
@@ -17,5 +17,5 @@ echo '---------rm container-----------'
 docker run -p 8080:8888 --network shop --name ${app_name} \
 -v /etc/localtime:/etc/localtime \
 -v /opt/app/${app_name}/logs:/var/logs \
--d basketboy/shop-docker-file:0.0.1
+-d ${project_id}/${app_name}:0.0.1
 echo '----start container----'
