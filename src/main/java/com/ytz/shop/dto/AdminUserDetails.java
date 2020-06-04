@@ -4,6 +4,8 @@ package com.ytz.shop.dto;
 import com.ytz.shop.common.Constant;
 import com.ytz.shop.pojo.Permission;
 import com.ytz.shop.pojo.UserAdmin;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
  * @author: yangtianzeng
  * @date: 2020/3/16 15:01
  */
+@Data
+@NoArgsConstructor
 public class AdminUserDetails implements UserDetails {
     private UserAdmin userAdmin;
     private List<Permission> permissionList;

@@ -1,5 +1,6 @@
 package com.ytz.shop.message;
 
+import cn.hutool.core.util.StrUtil;
 import com.rabbitmq.client.Channel;
 import com.ytz.shop.constants.MailConstants;
 import com.ytz.shop.pojo.UserAdmin;
@@ -79,7 +80,9 @@ public class MailReceiver {
             mailSender.send(msg);
 
             // redis存入消息
-            redisUtils.hset(MAIL_LOG, msgId, "basktBoy");
+            if (StrUtil.isNotEmpty(msgId)) {
+                redisUtils.hset(MAIL_LOG, msgId, "basktBoy");
+            }
             channel.basicAck(tag, false);
 
             logger.info(msgId + "------->邮件发送成功");

@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.common.Constant;
 import com.ytz.shop.constants.MailConstants;
+import com.ytz.shop.dto.AdminUserDetails;
 import com.ytz.shop.pojo.MessageLog;
 import com.ytz.shop.pojo.Permission;
 import com.ytz.shop.pojo.Role;
@@ -307,9 +308,10 @@ public class AdminServiceImpl implements AdminService {
     public void logout() {
         // 获取当前用户信息
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        AdminUserDetails adminUserDetails = (AdminUserDetails) authentication.getPrincipal();
+        String username = adminUserDetails.getUsername();
         // 删除 缓存token信息
-        /*String key = TOKEN_PREFIX + ":" + userAdmin.getUsername();
-        redisUtils.del(key);*/
+        String key = TOKEN_PREFIX + ":" + username;
+        redisUtils.del(key);
     }
 }
