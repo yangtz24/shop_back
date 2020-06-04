@@ -2,7 +2,6 @@ package com.ytz.shop.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +19,6 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "admin")
 public class UserAdmin implements Serializable {
 
@@ -63,7 +61,7 @@ public class UserAdmin implements Serializable {
     private Integer status;
 
     @JsonIgnoreProperties("adminList")
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "admin_role_relation",
             joinColumns = @JoinColumn(name = "adminId"),
             inverseJoinColumns = @JoinColumn(name = "roleId"))

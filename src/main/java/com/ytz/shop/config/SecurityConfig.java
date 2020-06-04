@@ -50,6 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // 添加过滤器
+        http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
         http.authorizeRequests()
                 // 允许对于网站静态资源的无授权访问
                 .antMatchers(HttpMethod.GET,
@@ -62,13 +65,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources/**",
                         "/v2/api-docs/**"
                 )
-               //.formLogin()
-                //.loginPage("")
-                //.loginProcessingUrl("")
-                .permitAll()
-                // 对注册、登录允许匿名访问
+                .permitAll();
+        // 解决跨域
+        http.authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .permitAll();
+        // 对注册、登录允许匿名访问
+        /*http.authorizeRequests()
+                .antMatchers("/rest/admin/register", "/rest/admin/login")
+                .permitAll();*/
+        /*http.authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/rest/**")
+                .permitAll();*/
+        http.authorizeRequests()
                 .antMatchers("/rest/admin/register", "/rest/admin/login")
                 .permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .csrf()
                 .disable()
@@ -76,8 +89,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // 禁用缓存
         http.headers().cacheControl();
-        // 添加过滤器
-        http.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         // 添加自定义未授权 和 未登录结果返回
         http.exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler)

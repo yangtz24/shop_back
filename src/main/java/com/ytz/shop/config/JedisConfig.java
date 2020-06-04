@@ -3,6 +3,8 @@ package com.ytz.shop.config;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,14 +68,18 @@ public class JedisConfig {
     @Bean
     @SuppressWarnings("all")
     public RedisTemplate<String, Object> redisTemplate() {
-        RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory());
 
-        // Json序列化配置
+        // Jackson2JsonRedisSerializer序列化配置     (默认采用的是JDK序列化)
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+        // 解决redis反序列化 localDateTime 报错问题
+        om.disable(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS);
+        om.registerModule(new JavaTimeModule());
+
         jackson2JsonRedisSerializer.setObjectMapper(om);
         // String 的序列化
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();

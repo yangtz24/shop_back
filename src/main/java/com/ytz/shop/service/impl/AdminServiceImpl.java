@@ -144,15 +144,15 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public UserAdmin getAdminByUsername(String username) {
-        String key = REDIS_KEY_ADMIN + ":" + username;
-        UserAdmin userAdmin = (UserAdmin) redisUtils.get(key);
-        redisUtils.set(key, userAdmin);
-        if (ObjectUtil.isNotEmpty(userAdmin)) {
-            return userAdmin;
-        }
+//        String key = REDIS_KEY_ADMIN + ":" + username;
+//        UserAdmin userAdmin = (UserAdmin) redisUtils.get(key);
+//        redisUtils.set(key, userAdmin);
+//        if (ObjectUtil.isNotEmpty(userAdmin)) {
+//            return userAdmin;
+//        }
         UserAdmin admin = userAdminRepository.findByUsername(username);
         if (ObjectUtil.isNotEmpty(admin)) {
-            redisUtils.set(key, admin, 30, TimeUnit.DAYS);
+//            redisUtils.set(key, admin, 30, TimeUnit.DAYS);
             return admin;
         }
 
@@ -231,7 +231,7 @@ public class AdminServiceImpl implements AdminService {
         if (ObjectUtil.isNotEmpty(userAdmin)) {
             UserAdmin user = userAdminRepository.findById(userAdmin.getId()).get();
             // 生成唯一性 消息ID
-            String msgId = UUID.randomUUID(true).toString();
+            String msgId = UUID.randomUUID(true).toString().replace("-","");
             MessageLog messageLog = new MessageLog();
             messageLog.setMsgId(msgId);
             messageLog.setCreateTime(new Date());
