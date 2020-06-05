@@ -23,6 +23,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName: MailReceiver
@@ -47,7 +48,7 @@ public class MailReceiver {
     private TemplateEngine templateEngine;
 
     @Autowired
-    private RedisUtils<Object> redisUtils;
+    private RedisUtils redisUtils;
 
     @RabbitListener(queues = MailConstants.MAIL_QUEUE_NAME)
     public void handler(Message<UserAdmin> message, Channel channel) throws IOException {
@@ -79,9 +80,9 @@ public class MailReceiver {
             messageHelper.setText(mail, true);
             mailSender.send(msg);
 
-            // redis存入消息
+            // redis存入消息ID，防止重复消费
             if (StrUtil.isNotEmpty(msgId)) {
-                redisUtils.hset(MAIL_LOG, msgId, "basktBoy");
+                redisUtils.hset(MAIL_LOG, msgId, "basktBoy", 3, TimeUnit.HOURS);
             }
             channel.basicAck(tag, false);
 

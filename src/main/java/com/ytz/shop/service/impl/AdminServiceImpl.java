@@ -86,7 +86,7 @@ public class AdminServiceImpl implements AdminService {
     private RoleRepository roleRepository;
 
     @Autowired
-    private RedisUtils<Object> redisUtils;
+    private RedisUtils redisUtils;
 
     @Value("${redis.key.admin}")
     private String REDIS_KEY_ADMIN;
