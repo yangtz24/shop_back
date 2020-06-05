@@ -62,6 +62,7 @@ public class RabbitMqConfig {
 
     @Bean
     RabbitTemplate rabbitTemplate() {
+        cachingConnectionFactory.setPublisherConfirms(true);
         RabbitTemplate rabbitTemplate = new RabbitTemplate(cachingConnectionFactory);
         rabbitTemplate.setConfirmCallback((data, ack, cause) -> {
             String msgId = data.getId();

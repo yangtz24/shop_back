@@ -65,7 +65,7 @@ public class JedisConfig {
         return factory;
     }
 
-    @Bean
+    @Bean(name = "myRedisTemplate")
     @SuppressWarnings("all")
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
