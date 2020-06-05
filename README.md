@@ -19,6 +19,10 @@
 
 ​	**MySQL8.0**
 
+​	**Redis3.0+**
+
+​	**RabbitMQ3.0+**
+
 #### 前端技术
 
 ​	**Vue3.0-client**
@@ -33,11 +37,13 @@
 
 ​	**CentOS7.x**
 
-​	**NGINX3.x**
+​	**Nginx3.x**
 
 ​	**Dokcer**
 
 ​	**Dockerfile**
+
+​	**Jenkins**
 
 ​	
 
