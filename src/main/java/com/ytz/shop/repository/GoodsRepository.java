@@ -22,6 +22,6 @@ public interface GoodsRepository extends JpaRepository<Goods, Long>, JpaSpecific
      * @return
      */
     @Modifying
-    @Query(nativeQuery = true, value = "UPDATE GOODS SET DELETED = 1 WHERE ID = ?1")
+    @Query(nativeQuery = true, value = "UPDATE goods SET deleted = 1 WHERE id = ?1")
     int updateDeleted(Long id);
 }
