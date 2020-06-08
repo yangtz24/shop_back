@@ -1,7 +1,7 @@
 package com.ytz.shop.service.impl;
 
 import com.ytz.shop.pojo.Report;
-import com.ytz.shop.repository.ReportRepository;
+import com.ytz.shop.repository.jpa.ReportRepository;
 import com.ytz.shop.service.ReportService;
 import com.ytz.shop.vo.ReportVO;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package com.ytz.shop.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.common.enums.AttributeType;
 import com.ytz.shop.pojo.Attribute;
-import com.ytz.shop.repository.AttributeRepository;
+import com.ytz.shop.repository.jpa.AttributeRepository;
 import com.ytz.shop.service.AttributeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.ytz.shop.es.repository;
+package com.ytz.shop.repository.es;
 
 import com.ytz.shop.es.document.EsGoods;
 import org.springframework.data.domain.Page;

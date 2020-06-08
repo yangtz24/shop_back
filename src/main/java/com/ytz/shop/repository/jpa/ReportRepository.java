@@ -1,16 +1,16 @@
-package com.ytz.shop.repository;
+package com.ytz.shop.repository.jpa;
 
-import com.ytz.shop.pojo.Order;
+import com.ytz.shop.pojo.Report;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 /**
- * @ClassName: OrderRepository
+ * @ClassName: ReportRepository
  * @Description:
  * @author: yangtianzeng
- * @date: 2020/5/2 10:45
+ * @date: 2020/5/2 15:14
  */
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
+public interface ReportRepository extends JpaRepository<Report, Long>, JpaSpecificationExecutor<Report> {
 }

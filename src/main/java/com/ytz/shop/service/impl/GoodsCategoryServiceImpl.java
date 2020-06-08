@@ -2,7 +2,7 @@ package com.ytz.shop.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.pojo.GoodsCategory;
-import com.ytz.shop.repository.GoodsCategoryRepository;
+import com.ytz.shop.repository.jpa.GoodsCategoryRepository;
 import com.ytz.shop.service.GoodsCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

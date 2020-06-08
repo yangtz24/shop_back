@@ -2,7 +2,7 @@ package com.ytz.shop.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.ytz.shop.pojo.MessageLog;
-import com.ytz.shop.repository.MessageLogRepository;
+import com.ytz.shop.repository.jpa.MessageLogRepository;
 import com.ytz.shop.service.MessageLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

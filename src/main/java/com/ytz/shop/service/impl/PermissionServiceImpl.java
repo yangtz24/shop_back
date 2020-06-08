@@ -2,7 +2,7 @@ package com.ytz.shop.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.pojo.Permission;
-import com.ytz.shop.repository.PermissionRepository;
+import com.ytz.shop.repository.jpa.PermissionRepository;
 import com.ytz.shop.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

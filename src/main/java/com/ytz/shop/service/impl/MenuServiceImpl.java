@@ -2,7 +2,7 @@ package com.ytz.shop.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.ytz.shop.pojo.Menu;
-import com.ytz.shop.repository.MenuRepository;
+import com.ytz.shop.repository.jpa.MenuRepository;
 import com.ytz.shop.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

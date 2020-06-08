@@ -60,7 +60,7 @@ public class WebLogAspect {
     /**
      *后置通知  通知方法会在目标方法返回或抛出异常后执行
      */
-    @After("")
+    @After("webLog()")
     public void doAfter() {}
 
     /**

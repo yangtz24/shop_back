@@ -1,4 +1,4 @@
-package com.ytz.shop.repository;
+package com.ytz.shop.repository.jpa;
 
 import com.ytz.shop.pojo.UserAdmin;
 import org.springframework.data.jpa.repository.JpaRepository;

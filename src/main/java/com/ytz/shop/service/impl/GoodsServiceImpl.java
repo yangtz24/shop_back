@@ -3,7 +3,7 @@ package com.ytz.shop.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.pojo.Goods;
-import com.ytz.shop.repository.GoodsRepository;
+import com.ytz.shop.repository.jpa.GoodsRepository;
 import com.ytz.shop.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

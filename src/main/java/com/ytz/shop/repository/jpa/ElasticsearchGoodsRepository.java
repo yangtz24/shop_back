@@ -1,11 +1,4 @@
-package com.ytz.shop.repository;
-
-import com.ytz.shop.es.document.EsGoods;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
+package com.ytz.shop.repository.jpa;
 
 /**
  * @ClassName: EsGoodsRepository
@@ -14,14 +7,17 @@ import java.util.List;
  * @date: 2020/6/7
  * @Version: V1.0
  */
+/*
 @Repository
 public interface ElasticsearchGoodsRepository extends JpaRepository<EsGoods, Long> {
 
-    /**
+    */
+/**
      * 查询商品列表表，根据ID
      * @param id
      * @return
-     */
+     *//*
+
     @Query(nativeQuery = true, value = "SELECT\n" +
             "        g.id id,\n" +
             "        g.cate_id goodsCategoryId,\n" +
@@ -41,3 +37,4 @@ public interface ElasticsearchGoodsRepository extends JpaRepository<EsGoods, Lon
             "        WHERE g.status = 2 AND if(?1 ='' OR ?1 IS NULL, 1=1, id = ?1)")
     List<EsGoods> findAllEsGoodsList(Long id);
 }
+*/

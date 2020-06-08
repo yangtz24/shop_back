@@ -1,4 +1,4 @@
-package com.ytz.shop.repository;
+package com.ytz.shop.repository.jpa;
 
 /**
  * @ClassName: RolePermissionRelationRepository

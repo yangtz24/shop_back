@@ -2,7 +2,7 @@ package com.ytz.shop.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.pojo.Order;
-import com.ytz.shop.repository.OrderRepository;
+import com.ytz.shop.repository.jpa.OrderRepository;
 import com.ytz.shop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

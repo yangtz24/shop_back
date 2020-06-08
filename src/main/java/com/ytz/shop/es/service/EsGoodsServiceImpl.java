@@ -3,8 +3,8 @@ package com.ytz.shop.es.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ytz.shop.es.document.EsGoods;
-import com.ytz.shop.es.repository.EsGoodsRepository;
-import com.ytz.shop.repository.ElasticsearchGoodsRepository;
+import com.ytz.shop.repository.es.EsGoodsRepository;
+import com.ytz.shop.repository.jpa.GoodsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +27,7 @@ import java.util.List;
 public class EsGoodsServiceImpl implements EsGoodsService {
 
     @Autowired
-    private ElasticsearchGoodsRepository elasticsearchGoodsRepository;
+    private GoodsRepository goodsRepository;
 
     @Autowired
     private EsGoodsRepository esGoodsRepository;
@@ -35,7 +35,7 @@ public class EsGoodsServiceImpl implements EsGoodsService {
     @Override
     public int importAll() {
         // 获取数据库 数据
-        List<EsGoods> goodsList = elasticsearchGoodsRepository.findAllEsGoodsList(null);
+        List<EsGoods> goodsList = goodsRepository.findAllEsGoodsList(null);
 
         // 添加到ES中
         Iterable<EsGoods> esGoods = esGoodsRepository.saveAll(goodsList);
@@ -54,7 +54,7 @@ public class EsGoodsServiceImpl implements EsGoodsService {
 
     @Override
     public EsGoods create(Long id) {
-        List<EsGoods> esGoodsList = elasticsearchGoodsRepository.findAllEsGoodsList(id);
+        List<EsGoods> esGoodsList = goodsRepository.findAllEsGoodsList(id);
         EsGoods esGoods = null;
         if (esGoodsList.size() > 0) {
             EsGoods goods = esGoodsList.get(0);
