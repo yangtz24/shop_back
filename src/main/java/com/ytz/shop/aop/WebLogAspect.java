@@ -145,7 +145,7 @@ public class WebLogAspect {
         log.info("argList.size()----------->{}", arglist.size());
 
         if (arglist.size() == 1) {
-            return arglist.get(1);
+            return arglist.get(0);
         } else if(CollUtil.isEmpty(arglist)) {
             return null;
         } else {
