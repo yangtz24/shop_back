@@ -1,7 +1,7 @@
 package com.ytz.shop.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+//import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * @date: 2020/6/8 14:01
  */
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "com.ytz.shop.repository.es")
+//@EnableElasticsearchRepositories(basePackages = "com.ytz.shop.repository.es")
 @EnableJpaRepositories(basePackages = "com.ytz.shop.repository.jpa")
 public class ElasticSearchConfiguration {
 }

@@ -1,14 +1,12 @@
 package com.ytz.shop.repository.jpa;
 
-import com.ytz.shop.es.document.EsGoods;
+//import com.ytz.shop.es.document.EsGoods;
 import com.ytz.shop.pojo.Goods;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * @ClassName: GoodsRepository
@@ -33,7 +31,7 @@ public interface GoodsRepository extends JpaRepository<Goods, Long>, JpaSpecific
      * @param id
      * @return
      */
-    @Query(nativeQuery = true, value = "SELECT\n" +
+    /*@Query(nativeQuery = true, value = "SELECT\n" +
             "        g.id id,\n" +
             "        g.cate_id goodsCategoryId,\n" +
             "        g.name name,\n" +
@@ -49,6 +47,6 @@ public interface GoodsRepository extends JpaRepository<Goods, Long>, JpaSpecific
             "        FROM goods g\n" +
             "        LEFT JOIN goods_attr ga ON ga.goods_id= g.id\n" +
             "        LEFT JOIN attribute a ON ga.attr_id= ga.id\n" +
-            "        WHERE g.status = 2 AND if(?1 ='' OR ?1 IS NULL, 1=1, id = ?1)")
-    List<EsGoods> findAllEsGoodsList(Long id);
+            "        WHERE g.status = 2 AND if(?1 ='' OR ?1 IS NULL, 1=1, id = ?1)")*/
+//    List<EsGoods> findAllEsGoodsList(Long id);
 }
