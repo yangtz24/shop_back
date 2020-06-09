@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import cn.hutool.json.JSONUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -113,7 +112,7 @@ public class WebLogAspect {
         webLog.setSpendTime((int) (endTime - startTime));
         webLog.setUri(requestUri);
         webLog.setUrl(requestUrl);
-        log.info("webLog--------> {}", JSONUtil.parse(webLog));
+//        log.info("webLog--------> {}", JSONUtil.parse(webLog));
         return result;
     }
 

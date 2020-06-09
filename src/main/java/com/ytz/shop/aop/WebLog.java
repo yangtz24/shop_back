@@ -3,6 +3,9 @@ package com.ytz.shop.aop;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * @ClassName: WebLog
@@ -13,9 +16,11 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@ToString
 @NoArgsConstructor
-public class WebLog {
+public class WebLog implements Serializable {
 
+    private static final long serialVersionUID = 3966114044588909923L;
     /**
      * 操作描述
      */
