@@ -1,19 +1,4 @@
-package com.ytz.shop.es.service;
-
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
-import com.ytz.shop.es.document.EsGoods;
-import com.ytz.shop.repository.es.EsGoodsRepository;
-import com.ytz.shop.repository.jpa.GoodsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+//package com.ytz.shop.es.service;
 
 /**
  * @ClassName: EsGoodsServiceImpl
@@ -22,6 +7,7 @@ import java.util.List;
  * @date: 2020/6/7
  * @Version: V1.0
  */
+/*
 @Service
 @Transactional(rollbackOn = Exception.class)
 public class EsGoodsServiceImpl implements EsGoodsService {
@@ -86,3 +72,4 @@ public class EsGoodsServiceImpl implements EsGoodsService {
         return esGoodsRepository.findByNameOrSubTitleOrKeywords(keyword, keyword, keyword, pageable);
     }
 }
+*/

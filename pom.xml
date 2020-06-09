@@ -58,10 +58,10 @@
         </dependency>
 
         <!--Elasticsearch相关依赖-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!--Mail邮件相关依赖-->
         <dependency>

@@ -1,3 +1,4 @@
+/*
 package com.ytz.shop.es.controller;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -14,13 +15,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * @ClassName: EsGoodsController
  * @Description: TODO
  * @author: basketBoy
  * @date: 2020/6/7
  * @Version: V1.0
- */
+ *//*
+
 @Api(tags = "EsGoodsController", description = "搜索商品Controller")
 @RestController
 @RequestMapping("rest/es/goods")
@@ -81,3 +84,4 @@ public class EsGoodsController {
         return CommonResult.failed("没有数据，搜索出错");
     }
 }
+*/

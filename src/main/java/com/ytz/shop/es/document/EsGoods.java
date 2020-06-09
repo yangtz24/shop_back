@@ -1,3 +1,4 @@
+/*
 package com.ytz.shop.es.document;
 
 import lombok.Getter;
@@ -13,13 +14,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+*/
 /**
  * @ClassName: EsGoods
  * @Description: TODO  搜索的商品信息
  * @author: basketBoy
  * @date: 2020/6/6
  * @Version: V1.0
- */
+ *//*
+
 @Document(indexName = "shop", type = "goods",shards = 1,replicas = 0)
 @Getter
 @Setter
@@ -57,3 +60,4 @@ public class EsGoods implements Serializable {
     private List<EsGoodsAttributeValue> attributeValueList;
 
 }
+*/
