@@ -2,6 +2,7 @@ package com.ytz.shop.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.ytz.shop.annotation.ReSubmitLock;
 import com.ytz.shop.common.CommonResult;
 import com.ytz.shop.dto.AdminLoginParam;
 import com.ytz.shop.pojo.Permission;
@@ -92,6 +93,7 @@ public class AdminController {
 
     @ApiOperation("添加管理员用户")
     @PostMapping("")
+    @ReSubmitLock(key = "admin:add")
     public CommonResult<UserAdmin> add(@RequestBody UserAdmin admin) {
         UserAdmin userAdmin = adminService.add(admin);
         if(ObjectUtil.isEmpty(userAdmin)) {
