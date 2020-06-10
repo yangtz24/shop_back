@@ -1,8 +1,6 @@
-package com.ytz.shop.vo;
+package com.ytz.shop.dto;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -13,7 +11,7 @@ import java.io.Serializable;
  * @date: 2020/4/20 18:12
  */
 @NoArgsConstructor
-public class RoleVO implements Serializable {
+public class RoleDTO implements Serializable {
 
     private Long[] roleIds;
 

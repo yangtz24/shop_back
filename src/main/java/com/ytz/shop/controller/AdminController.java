@@ -5,10 +5,10 @@ import cn.hutool.core.util.ObjectUtil;
 import com.ytz.shop.annotation.ReSubmitLock;
 import com.ytz.shop.common.CommonResult;
 import com.ytz.shop.dto.AdminLoginParam;
+import com.ytz.shop.dto.RoleDTO;
 import com.ytz.shop.pojo.Permission;
 import com.ytz.shop.pojo.UserAdmin;
 import com.ytz.shop.service.AdminService;
-import com.ytz.shop.vo.RoleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,8 +141,8 @@ public class AdminController {
 
     @ApiOperation("分配角色")
     @PutMapping("assign/{id}/role")
-    public CommonResult<Object> assignRole(@PathVariable("id") Long adminId , @RequestBody RoleVO roleVO) {
-        adminService.assignRole(adminId, Arrays.asList(roleVO.getRoleIds()));
+    public CommonResult<Object> assignRole(@PathVariable("id") Long adminId , @RequestBody RoleDTO roleDTO) {
+        adminService.assignRole(adminId, Arrays.asList(roleDTO.getRoleIds()));
         return CommonResult.success(1, "操作成功！！！");
     }
 
