@@ -11,7 +11,7 @@
 
 #### 后端技术
 
-​	**SpringBoot**
+​	**SpringBoot2.2.6**
 
 ​	**Spring Security**
 
@@ -19,9 +19,9 @@
 
 ​	**MySQL8.0**
 
-​	**Redis3.0+**
+​	**Redis5.0+**
 
-​	**RabbitMQ3.0+**
+​	**RabbitMQ3.7+**
 
 #### 前端技术
 
