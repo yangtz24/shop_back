@@ -35,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class MailReceiver {
 
     public static final String MAIL_LOG = "mail_log";
+    public static final String MAIL_VALUE = "basketBoy";
 
     public static final Logger logger = LoggerFactory.getLogger(MailReceiver.class);
 
@@ -82,7 +83,7 @@ public class MailReceiver {
 
             // redis存入消息ID，防止重复消费
             if (StrUtil.isNotEmpty(msgId)) {
-                redisUtils.hset(MAIL_LOG, msgId, "basktBoy", 3, TimeUnit.HOURS);
+                redisUtils.hset(MAIL_LOG, msgId, MAIL_VALUE, 3, TimeUnit.HOURS);
             }
             channel.basicAck(tag, false);
 
